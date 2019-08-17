@@ -1,41 +1,41 @@
 package main
 
 import (
-	"sort"
+	"bufio"
 	"fmt"
-	"strings"
 	"log"
 	"os"
-	"bufio"
+	"sort"
+	"strings"
 )
 
 func main() {
 	all := make(map[string][]string)
 
-    file, err := os.Open("words.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer file.Close()
+	file, err := os.Open("words.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
 
-    scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
 		word := scanner.Text()
 		sorted := sortChars(word)
 		if _, ok := all[sorted]; !ok {
 			all[sorted] = make([]string, 0)
 		}
 		all[sorted] = append(all[sorted], word)
-    }
-    if err := scanner.Err(); err != nil {
-        log.Fatal(err)
 	}
-	
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
 	highest := struct {
-		word string
+		word  string
 		count int
 	}{
-		word: "",
+		word:  "",
 		count: 0,
 	}
 	for word, instances := range all {
